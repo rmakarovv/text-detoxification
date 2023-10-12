@@ -1,6 +1,6 @@
 absl-py==1.4.0
 accelerate==0.23.0
-aiohttp==3.8.5
+aiohttp==3.8.6
 aiosignal==1.3.1
 alabaster==0.7.13
 albumentations==1.3.1
@@ -20,7 +20,7 @@ autograd==1.6.2
 Babel==2.13.0
 backcall==0.2.0
 beautifulsoup4==4.11.2
-bleach==6.0.0
+bleach==6.1.0
 blinker==1.4
 blis==0.7.11
 blosc2==2.0.0
@@ -56,9 +56,9 @@ cufflinks==0.17.3
 cupy-cuda11x==11.0.0
 cvxopt==1.3.2
 cvxpy==1.3.2
-cycler==0.12.0
+cycler==0.12.1
 cymem==2.0.8
-Cython==3.0.2
+Cython==3.0.3
 dask==2023.8.1
 datascience==0.17.6
 db-dtypes==1.1.1
@@ -73,14 +73,14 @@ dm-tree==0.1.8
 docutils==0.18.1
 dopamine-rl==4.0.6
 duckdb==0.8.1
-earthengine-api==0.1.371
+earthengine-api==0.1.374
 easydict==1.10
 ecos==2.0.12
 editdistance==0.6.2
 eerepr==0.0.4
 en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.6.0/en_core_web_sm-3.6.0-py3-none-any.whl#sha256=83276fc78a70045627144786b52e1f2728ad5e29e5e43916ec37ea9c26a11212
 entrypoints==0.4
-ephem==4.1.4
+ephem==4.1.5
 et-xmlfile==1.1.0
 etils==1.5.0
 etuples==0.3.9
@@ -98,7 +98,7 @@ Flask==2.2.5
 flatbuffers==23.5.26
 flax==0.7.4
 folium==0.14.0
-fonttools==4.43.0
+fonttools==4.43.1
 frozendict==2.3.8
 frozenlist==1.4.0
 fsspec==2023.6.0
@@ -107,7 +107,7 @@ gast==0.4.0
 gcsfs==2023.6.0
 GDAL==3.4.3
 gdown==4.6.6
-geemap==0.28.1
+geemap==0.28.2
 gensim==4.3.2
 geocoder==1.38.1
 geographiclib==2.0
@@ -131,7 +131,7 @@ google-cloud-functions==1.13.3
 google-cloud-language==2.9.1
 google-cloud-storage==2.8.0
 google-cloud-translate==3.11.3
-google-colab @ file:///colabtools/dist/google-colab-1.0.0.tar.gz#sha256=5ca4d64db1f8368e3b9822e4025f8cf90b99524b58b544be156c3df5e4adc738
+google-colab @ file:///colabtools/dist/google-colab-1.0.0.tar.gz#sha256=a9ae86f42f08e9abe9f8f335e85f6288917a4ef7d3e941260cddba68c57ca648
 google-crc32c==1.5.0
 google-pasta==0.2.0
 google-resumable-media==2.6.0
@@ -212,7 +212,8 @@ locket==1.0.0
 logical-unification==0.4.6
 LunarCalendar==0.0.9
 lxml==4.9.3
-Markdown==3.4.4
+malloy==2023.1056
+Markdown==3.5
 markdown-it-py==3.0.0
 MarkupSafe==2.1.3
 matplotlib==3.7.1
@@ -351,7 +352,7 @@ requests==2.31.0
 requests-oauthlib==1.3.1
 requirements-parser==0.5.0
 rich==13.6.0
-rpds-py==0.10.3
+rpds-py==0.10.4
 rpy2==3.4.2
 rsa==4.9
 safetensors==0.4.0
@@ -372,7 +373,7 @@ snowballstemmer==2.2.0
 sortedcontainers==2.4.0
 soundfile==0.12.1
 soupsieve==2.5
-soxr==0.3.6
+soxr==0.3.7
 spacy==3.6.1
 spacy-legacy==3.0.12
 spacy-loggers==1.0.5
@@ -400,7 +401,7 @@ tensorflow==2.13.0
 tensorflow-datasets==4.9.3
 tensorflow-estimator==2.13.0
 tensorflow-gcs-config==2.13.0
-tensorflow-hub==0.14.0
+tensorflow-hub==0.15.0
 tensorflow-io-gcs-filesystem==0.34.0
 tensorflow-metadata==1.14.0
 tensorflow-probability==0.20.1
@@ -444,7 +445,7 @@ wasabi==1.1.2
 wcwidth==0.2.8
 webcolors==1.13
 webencodings==0.5.1
-websocket-client==1.6.3
+websocket-client==1.6.4
 Werkzeug==3.0.0
 widgetsnbextension==3.6.6
 wordcloud==1.9.2
@@ -453,9 +454,9 @@ xarray==2023.7.0
 xarray-einstats==0.6.0
 xgboost==2.0.0
 xlrd==2.0.1
-xyzservices==2023.7.0
+xyzservices==2023.10.0
 yarl==1.9.2
 yellowbrick==1.5
-yfinance==0.2.30
+yfinance==0.2.31
 zict==3.0.0
 zipp==3.17.0
