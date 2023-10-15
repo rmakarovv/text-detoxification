@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 cur_dir = str(pathlib.Path().resolve())
 
-with zipfile.ZipFile(f'{cur_dir}/../../data/raw/filtered_paranmt.zip', 'r') as zip_ref:
+with zipfile.ZipFile(f'{cur_dir}/text-detoxification/data/raw/filtered_paranmt.zip', 'r') as zip_ref:
     zip_ref.extractall('filtered_paranmt')
     
 filtered = pd.read_table('filtered_paranmt/filtered.tsv')
@@ -17,7 +17,7 @@ filtered = filtered.drop([filtered.columns[i] for i in [0]], axis=1)
 
 filtered.head()
 
-data = pd.read_table('text-detoxification/data/external/paradetox.tsv')
+data = pd.read_table(f'{cur_dir}/text-detoxification/data/external/paradetox.tsv')
 data.rename(columns={"en_toxic_comment": "reference", "en_neutral_comment": 'translation'}, inplace=True)
 data.head()
 
@@ -25,7 +25,7 @@ data2 = filtered[filtered['trn_tox'] < filtered['ref_tox']]
 data2 = data2.sample(n=len(data)).drop([data2.columns[i] for i in [2, 3, 4, 5]], axis=1)
 
 final_data = pd.concat([data, data2])
-final_data.to_csv('text-detoxification/data/interim/preprocessed.csv')
+final_data.to_csv(f'{cur_dir}/text-detoxification/data/interim/preprocessed.csv')
 
 """Training a model"""
 
