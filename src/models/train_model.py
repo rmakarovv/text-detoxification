@@ -58,7 +58,7 @@ train = final_data.sample(frac = 0.8)
 val = final_data.drop(train.index)
 train.head()
 
-CHOOSE = 32000
+CHOOSE = 100
 
 cropped_datasets = {}
 cropped_datasets['train'] = train.iloc[:CHOOSE, :]
@@ -92,6 +92,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
 
 # defining the parameters for training
 batch_size = 32
+num_epochs = 5
 
 model_name = model_checkpoint.split("/")[-1]
 args = Seq2SeqTrainingArguments(
@@ -102,7 +103,7 @@ args = Seq2SeqTrainingArguments(
     per_device_eval_batch_size=batch_size,
     weight_decay=0.01,
     save_total_limit=3,
-    num_train_epochs=5,
+    num_train_epochs=num_epochs,
     predict_with_generate=True,
     # fp16=True,
     report_to='tensorboard',
@@ -126,8 +127,9 @@ trainer.save_model('best')
 
 import pandas as pd
 logs = pd.DataFrame(trainer.state.log_history)
+print(logs.columns)
 eval_logs = logs['eval_loss'].dropna().reset_index(drop=True)
-train_logs = logs['loss'].dropna().reset_index(drop=True)
+train_logs = logs['train_loss'].dropna().reset_index(drop=True)
 eval_epochs = np.array([i+1 for i in range(len(eval_logs))])
 train_epochs = np.array([i+1 for i in range(len(train_logs))])
 
@@ -140,7 +142,7 @@ ax1.plot(train_epochs, train_logs)
 
 fig.savefig("text-detoxification/reports/figures/training.pdf", bbox_inches='tight')
 
-shutil.make_archive('best', 'zip', '../../models/best')
+shutil.make_archive('best', 'zip', 'text-detoxification/models/best')
 
 shutil.rmtree('filtered_paranmt')
 shutil.rmtree(f'{model_name}-finetuned')
