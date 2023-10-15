@@ -1,8 +1,13 @@
+import zipfile
+import pathlib
+import shutil
 from transformers import AutoModelForSeq2SeqLM
 from transformers import AutoTokenizer
-import zipfile
 
-with zipfile.ZipFile('text-detoxification/models/best.zip', 'r') as zip_ref:
+
+cur_dir = str(pathlib.Path().resolve())
+
+with zipfile.ZipFile(f'{cur_dir}/../../models/best.zip', 'r') as zip_ref:
     zip_ref.extractall('best')
 
 # loading the model and run inference for it
@@ -20,5 +25,11 @@ def translate(inference_request, model, tokenizer=tokenizer):
     return tokenizer.decode(outputs[0], skip_special_tokens=True,temperature=0)
 
 while True:
-    sent = input('Input sentence that you want to detoxify:')
-    print('Detoxified text:', translate(prefix + sent.lower(), model, tokenizer))
+    try:
+        sent = input('Input sentence that you want to detoxify:')
+        print('Detoxified text:', translate(prefix + sent.lower(), model, tokenizer))
+    except KeyboardInterrupt:
+        print('Finishing the program...')
+        break
+
+shutil.rmtree('best')

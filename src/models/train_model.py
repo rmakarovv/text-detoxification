@@ -1,10 +1,15 @@
+import zipfile
+import os
+import shutil
+import pathlib
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import zipfile
-import os
 
-with zipfile.ZipFile('text-detoxification/data/raw/filtered_paranmt.zip', 'r') as zip_ref:
+
+cur_dir = str(pathlib.Path().resolve())
+
+with zipfile.ZipFile(f'{cur_dir}/../../data/raw/filtered_paranmt.zip', 'r') as zip_ref:
     zip_ref.extractall('filtered_paranmt')
     
 filtered = pd.read_table('filtered_paranmt/filtered.tsv')
@@ -135,5 +140,8 @@ ax1.plot(train_epochs, train_logs)
 
 fig.savefig("text-detoxification/reports/figures/training.pdf", bbox_inches='tight')
 
-import shutil
 shutil.make_archive('best', 'zip', '../../models/best')
+
+shutil.rmtree('filtered_paranmt')
+shutil.rmtree(f'{model_name}-finetuned')
+shutil.rmtree('best')
