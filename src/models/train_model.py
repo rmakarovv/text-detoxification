@@ -142,7 +142,7 @@ ax1.plot(train_epochs, train_logs)
 
 fig.savefig("text-detoxification/reports/figures/training.pdf", bbox_inches='tight')
 
-shutil.make_archive('best', 'zip', 'text-detoxification/models/best')
+shutil.make_archive('best', 'zip', 'text-detoxification/models/best', 'best')
 
 shutil.rmtree('filtered_paranmt')
 shutil.rmtree(f'{model_name}-finetuned')
