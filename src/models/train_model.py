@@ -125,9 +125,8 @@ trainer.train()
 # saving model
 trainer.save_model('best')
 
-import pandas as pd
 logs = pd.DataFrame(trainer.state.log_history)
-print(logs.columns)
+
 eval_logs = logs['eval_loss'].dropna().reset_index(drop=True)
 train_logs = logs['train_loss'].dropna().reset_index(drop=True)
 eval_epochs = np.array([i+1 for i in range(len(eval_logs))])
@@ -142,7 +141,7 @@ ax1.plot(train_epochs, train_logs)
 
 fig.savefig("text-detoxification/reports/figures/training.pdf", bbox_inches='tight')
 
-shutil.make_archive('best', 'zip', 'text-detoxification/models/best', 'best')
+shutil.make_archive('best', 'zip', 'text-detoxification/models', 'best')
 
 shutil.rmtree('filtered_paranmt')
 shutil.rmtree(f'{model_name}-finetuned')
