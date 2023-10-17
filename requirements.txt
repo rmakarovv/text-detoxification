@@ -1,7 +1,0 @@
-pandas
-numpy
-wget
-matplotlib
-nltk
-transformers
-accelerate
