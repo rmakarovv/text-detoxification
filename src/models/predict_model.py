@@ -8,7 +8,7 @@ from transformers.generation import GenerationConfig
 cur_dir = str(pathlib.Path().resolve())
 
 with zipfile.ZipFile(f'{cur_dir}/text-detoxification/models/best.zip', 'r') as zip_ref:
-    zip_ref.extractall('best')
+    zip_ref.extractall(f'{cur_dir}')
 
 # loading the model and run inference for it
 model = AutoModelForSeq2SeqLM.from_pretrained('best')
