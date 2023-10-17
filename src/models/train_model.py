@@ -124,6 +124,7 @@ trainer.train()
 
 # saving model
 trainer.save_model('best')
+model.config.to_json_file("best/config.json")
 
 logs = pd.DataFrame(trainer.state.log_history)
 
