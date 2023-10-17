@@ -27,13 +27,26 @@ def translate(inference_request, model, tokenizer=tokenizer):
     outputs = model.generate(input_ids=input_ids, generation_config=gen_cfg)
     return tokenizer.decode(outputs[0], skip_special_tokens=True,temperature=0)
 
-while True:
-    try:
-        sent = input('Input sentence that you want to detoxify or press ENTER to exit:\n')
-        if not sent:
-            break
-        print('Detoxified text:', translate(prefix + sent.lower(), model, tokenizer))
-    except KeyboardInterrupt:
-        break
+examples = [
+    'Everything went fucking wrong...',
+    'she is looking like shite',
+    'where the fuck is captain planet ?'
+]
+paraphrases = []
+
+for example in examples:
+    paraphrases.append(translate(prefix + example, model, tokenizer))
+
+for ex, par in zip(examples, paraphrases):
+    print(f'Original:    {ex}\nParaphrase: {par}')
+
+# while True:
+#     try:
+#         sent = input('Input sentence that you want to detoxify or press ENTER to exit:\n')
+#         if not sent:
+#             break
+#         print('Detoxified text:', translate(prefix + sent.lower(), model, tokenizer))
+#     except KeyboardInterrupt:
+#         break
 
 shutil.rmtree('best')
