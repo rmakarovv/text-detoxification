@@ -38,11 +38,11 @@ def preprocess_function(df):
     model_inputs["labels"] = labels["input_ids"]
     return model_inputs
 
-train = final_data.sample(frac = 0.8)
-val = final_data.drop(train.index)
+train = data.sample(frac = 0.8)
+val = data.drop(train.index)
 train.head()
 
-CHOOSE = 100
+CHOOSE = 130000
 
 cropped_datasets = {}
 cropped_datasets['train'] = train.iloc[:CHOOSE, :]
