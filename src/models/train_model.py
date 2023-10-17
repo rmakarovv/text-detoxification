@@ -76,7 +76,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
 
 # defining the parameters for training
 batch_size = 32
-num_epochs = 3
+num_epochs = 5
 
 model_name = model_checkpoint.split("/")[-1]
 args = Seq2SeqTrainingArguments(
