@@ -54,6 +54,6 @@ for example in examples:
     paraphrases.append(translate(prefix + example, model, tokenizer))
 
 for ex, par in zip(examples, paraphrases):
-    print(f'Original:    {ex}\nParaphrase: {par}')
+    print(f'Original:    {ex}\nParaphrase:  {par}')
 
 shutil.rmtree('best')

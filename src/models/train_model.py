@@ -69,7 +69,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
 
 # defining the parameters for training
 batch_size = 32
-num_epochs = 3
+num_epochs = 5
 
 model_name = model_checkpoint.split("/")[-1]
 args = Seq2SeqTrainingArguments(
@@ -82,7 +82,6 @@ args = Seq2SeqTrainingArguments(
     save_total_limit=3,
     num_train_epochs=num_epochs,
     predict_with_generate=True,
-    report_to='tensorboard',
 )
 
 data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
