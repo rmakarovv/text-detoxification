@@ -82,6 +82,7 @@ args = Seq2SeqTrainingArguments(
     save_total_limit=3,
     num_train_epochs=num_epochs,
     predict_with_generate=True,
+    report_to='tensorboard',
 )
 
 data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
