@@ -5,30 +5,27 @@ import pathlib
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
-
-cur_dir = str(pathlib.Path().resolve())
-data = pd.read_csv(f'{cur_dir}/text-detoxification/data/interim/preprocessed.csv')
-
-
-"""Training a model"""
-
 import transformers
 from transformers import AutoTokenizer
 from transformers import AutoModelForSeq2SeqLM, DataCollatorForSeq2Seq, Seq2SeqTrainingArguments, Seq2SeqTrainer
+import locale
+locale.getpreferredencoding = lambda: "UTF-8"
 
+
+# Reading preprocessed data
+cur_dir = str(pathlib.Path().resolve())
+data = pd.read_csv(f'{cur_dir}/text-detoxification/data/interim/preprocessed.csv')
+
+# Setting up training model and tokenizer parameters
 transformers.set_seed(42)
-
 model_checkpoint = "t5-small"
-
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
-
 prefix = "detoxify:"
-
 max_input_length = 128
 max_target_length = 128
 
 def preprocess_function(df):
+    """Preprocessing inputs to include prefix and tokenizing them"""
     inputs = [prefix + text for text in df['reference']]
     targets = [text for text in df['translation']]
 
@@ -42,15 +39,14 @@ train = data.sample(frac = 0.8)
 val = data.drop(train.index)
 train.head()
 
+# Preprocessing inputs
 CHOOSE = 130000
-
 cropped_datasets = {}
 cropped_datasets['train'] = train.iloc[:CHOOSE, :]
 cropped_datasets['val'] = val.iloc[:CHOOSE // 4, :]
 tokenized_datasets = {}
 tokenized_datasets['train'] = preprocess_function(cropped_datasets['train'])
 tokenized_datasets['val'] = preprocess_function(cropped_datasets['val'])
-tokenized_datasets['train'][0]
 
 samples_train = []
 for i in range(len(tokenized_datasets['train']['input_ids'])):
@@ -67,11 +63,8 @@ for i in range(len(tokenized_datasets['val']['input_ids'])):
 tokenized_datasets['train'] = samples_train
 tokenized_datasets['val'] = samples_val
 
-"""Fine-tuning the model"""
 
-import locale
-locale.getpreferredencoding = lambda: "UTF-8"
-
+"""Fine-tuning the t5 small model"""
 model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
 
 # defining the parameters for training
@@ -89,7 +82,6 @@ args = Seq2SeqTrainingArguments(
     save_total_limit=3,
     num_train_epochs=num_epochs,
     predict_with_generate=True,
-    # fp16=True,
     report_to='tensorboard',
 )
 
@@ -127,6 +119,5 @@ ax1.plot(train_epochs, train_logs)
 fig.savefig("text-detoxification/reports/figures/training.pdf", bbox_inches='tight')
 
 shutil.make_archive('text-detoxification/models/best', 'zip', '', 'best')
-
 shutil.rmtree(f'{model_name}-finetuned')
 shutil.rmtree('best')
