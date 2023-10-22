@@ -100,8 +100,8 @@ def compute_metrics(eval_preds):
     labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
     decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
 
-    embeddings1 = model.encode([x for x in decoded_preds],  convert_to_tensor=True)
-    embeddings2 = model.encode([x for x in decoded_labels], convert_to_tensor=True)
+    embeddings1 = bert_model.encode([x for x in decoded_preds],  convert_to_tensor=True)
+    embeddings2 = bert_model.encode([x for x in decoded_labels], convert_to_tensor=True)
     cosine_scores = util.cos_sim(embeddings1, embeddings2)
     
     result = {"bert similarity": np.mean(cosine_scores).round(4)}
