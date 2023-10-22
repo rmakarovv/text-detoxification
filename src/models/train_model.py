@@ -125,6 +125,8 @@ model.config.to_json_file("best/config.json")
 
 logs = pd.DataFrame(trainer.state.log_history)
 
+print(logs['train_loss'])
+
 eval_logs = logs['eval_loss'].dropna().reset_index(drop=True)
 train_logs = logs['train_loss'].dropna().reset_index(drop=True)
 simil_logs = logs['eval_bert_simil'].dropna().reset_index(drop=True)
