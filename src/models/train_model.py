@@ -79,10 +79,10 @@ args = Seq2SeqTrainingArguments(
     per_device_train_batch_size=batch_size,
     per_device_eval_batch_size=batch_size,
     weight_decay=0.01,
-    save_total_limit=3,
+    save_total_limit=5,
     num_train_epochs=num_epochs,
     predict_with_generate=True,
-    report_to='none',
+    report_to='tensorboard',
 )
 
 data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
@@ -104,7 +104,7 @@ def compute_metrics(eval_preds):
     embeddings2 = bert_model.encode([x for x in decoded_labels], convert_to_tensor=True)
     cosine_scores = util.cos_sim(embeddings1, embeddings2)
     
-    result = {"bert similarity": np.mean(cosine_scores).round(4)}
+    result = {"bert similarity": np.mean(np.array([cosine_scores[i][i] for i in range(len(cosine_scores))])).round(4)}
     return result
 
 trainer = Seq2SeqTrainer(
