@@ -124,19 +124,22 @@ trainer.save_model('best')
 model.config.to_json_file("best/config.json")
 
 logs = pd.DataFrame(trainer.state.log_history)
-print(f'{logs.columns = }')
 
 eval_logs = logs['eval_loss'].dropna().reset_index(drop=True)
 train_logs = logs['train_loss'].dropna().reset_index(drop=True)
+simil_logs = logs['eval_bert_simil'].dropna().reset_index(drop=True)
 eval_epochs = np.array([i+1 for i in range(len(eval_logs))])
 train_epochs = np.array([i+1 for i in range(len(train_logs))])
+simil_epochs = np.array([i+1 for i in range(len(simil_logs))])
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(12, 4))
 
 ax1.set_title('Train loss')
 ax2.set_title('Eval loss')
+ax3.set_title('Similarity')
 ax2.plot(eval_epochs, eval_logs)
 ax1.plot(train_epochs, train_logs)
+ax3.plot(simil_epochs, simil_logs)
 
 try:
     fig.savefig("text-detoxification/reports/figures/training.pdf", bbox_inches='tight')
