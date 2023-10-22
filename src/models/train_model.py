@@ -40,7 +40,7 @@ val = data.drop(train.index)
 train.head()
 
 # Preprocessing inputs
-CHOOSE = 130000
+CHOOSE = 10000 # debug value
 cropped_datasets = {}
 cropped_datasets['train'] = train.iloc[:CHOOSE, :]
 cropped_datasets['val'] = val.iloc[:CHOOSE // 4, :]
@@ -112,8 +112,9 @@ trainer = Seq2SeqTrainer(
     args,
     train_dataset=tokenized_datasets["train"],
     eval_dataset=tokenized_datasets["val"],
-    # data_collator=data_collator,
+    data_collator=data_collator,
     tokenizer=tokenizer,
+    compute_metrics=compute_metrics,
 )
 
 trainer.train()
