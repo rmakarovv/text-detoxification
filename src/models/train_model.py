@@ -40,7 +40,7 @@ val = data.drop(train.index)
 train.head()
 
 # Preprocessing inputs
-CHOOSE = 10000 # debug value
+CHOOSE = 1000 # debug value
 cropped_datasets = {}
 cropped_datasets['train'] = train.iloc[:CHOOSE, :]
 cropped_datasets['val'] = val.iloc[:CHOOSE // 4, :]
@@ -104,7 +104,7 @@ def compute_metrics(eval_preds):
     embeddings2 = bert_model.encode([x for x in decoded_labels], convert_to_tensor=True)
     cosine_scores = util.cos_sim(embeddings1, embeddings2)
     
-    result = {"bert similarity": np.mean(np.array([cosine_scores[i][i] for i in range(len(cosine_scores))])).round(4)}
+    result = {"bert similarity": np.mean(np.array([cosine_scores[i][i].cpu() for i in range(len(cosine_scores))])).round(4)}
     return result
 
 trainer = Seq2SeqTrainer(
