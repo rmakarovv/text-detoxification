@@ -104,7 +104,7 @@ def compute_metrics(eval_preds):
     embeddings2 = bert_model.encode([x for x in decoded_labels], convert_to_tensor=True)
     cosine_scores = util.cos_sim(embeddings1, embeddings2)
     
-    result = {"bert similarity": np.mean(np.array([cosine_scores[i][i].cpu() for i in range(len(cosine_scores))])).round(4)}
+    result = {"bert_simil": np.mean(np.diagonal(cosine_scores.cpu().numpy())).round(3)}
     return result
 
 trainer = Seq2SeqTrainer(
@@ -124,6 +124,7 @@ trainer.save_model('best')
 model.config.to_json_file("best/config.json")
 
 logs = pd.DataFrame(trainer.state.log_history)
+print(f'{logs.columns = }')
 
 eval_logs = logs['eval_loss'].dropna().reset_index(drop=True)
 train_logs = logs['train_loss'].dropna().reset_index(drop=True)
