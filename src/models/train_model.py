@@ -87,12 +87,32 @@ args = Seq2SeqTrainingArguments(
 
 data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
 
+from sentence_transformers import SentenceTransformer, util
+bert_model = SentenceTransformer('bert-base-nli-mean-tokens')
+
+def compute_metrics(eval_preds):
+    preds, labels = eval_preds
+    if isinstance(preds, tuple):
+        preds = preds[0]
+    decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
+
+    # Replace -100 in the labels as we can't decode them.
+    labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+    decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+
+    embeddings1 = model.encode([x for x in decoded_preds],  convert_to_tensor=True)
+    embeddings2 = model.encode([x for x in decoded_labels], convert_to_tensor=True)
+    cosine_scores = util.cos_sim(embeddings1, embeddings2)
+    
+    result = {"bert similarity": np.mean(cosine_scores).round(4)}
+    return result
+
 trainer = Seq2SeqTrainer(
     model,
     args,
     train_dataset=tokenized_datasets["train"],
     eval_dataset=tokenized_datasets["val"],
-    data_collator=data_collator,
+    # data_collator=data_collator,
     tokenizer=tokenizer,
 )
 
