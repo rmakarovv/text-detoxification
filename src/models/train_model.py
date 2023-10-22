@@ -138,7 +138,10 @@ ax2.set_title('Eval loss')
 ax2.plot(eval_epochs, eval_logs)
 ax1.plot(train_epochs, train_logs)
 
-fig.savefig("text-detoxification/reports/figures/training.pdf", bbox_inches='tight')
+try:
+    fig.savefig("text-detoxification/reports/figures/training.pdf", bbox_inches='tight')
+except Exception as e:
+    print(str(e))
 
 shutil.make_archive('text-detoxification/models/best', 'zip', '', 'best')
 shutil.rmtree(f'{model_name}-finetuned')
