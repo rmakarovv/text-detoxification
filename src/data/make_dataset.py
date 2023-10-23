@@ -25,7 +25,7 @@ filtered = filtered.drop([filtered.columns[i] for i in [0]], axis=1)
 data = pd.read_table(f'{cur_dir}/text-detoxification/data/external/paradetox.tsv')
 data.rename(columns={"en_toxic_comment": "reference", "en_neutral_comment": 'translation'}, inplace=True)
 
-data2 = filtered[(filtered['ref_tox'] > 0.98) & (filtered['trn_tox'] < 0.001)]
+data2 = filtered[(filtered['ref_tox'] > 0.95) & (filtered['trn_tox'] < 0.01)]
 data2 = data2.drop([data2.columns[i] for i in [2, 3, 4, 5]], axis=1)
 
 final_data = pd.concat([data, data2])
