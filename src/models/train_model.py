@@ -21,8 +21,8 @@ transformers.set_seed(42)
 model_checkpoint = "t5-small"
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 prefix = "detoxify:"
-max_input_length = 128
-max_target_length = 128
+max_input_length = 70
+max_target_length = 70
 
 def preprocess_function(df):
     """Preprocessing inputs to include prefix and tokenizing them"""
@@ -40,7 +40,7 @@ val = data.drop(train.index)
 train.head()
 
 # Preprocessing inputs
-CHOOSE = 160000 # debug value
+CHOOSE = 300000 # debug value. Current value is bigger than the whole dataset to include all sentences
 cropped_datasets = {}
 cropped_datasets['train'] = train.iloc[:CHOOSE, :]
 cropped_datasets['val'] = val.iloc[:CHOOSE // 4, :]
@@ -123,26 +123,19 @@ trainer.train()
 trainer.save_model('best')
 model.config.to_json_file("best/config.json")
 
+# Loading log history and saving the graph of training
 logs = pd.DataFrame(trainer.state.log_history)
 
-print(logs['train_loss'])
-
 eval_logs = logs['eval_loss'].dropna().reset_index(drop=True)
-train_logs = logs['train_loss'].dropna().reset_index(drop=True)
 simil_logs = logs['eval_bert_simil'].dropna().reset_index(drop=True)
 eval_epochs = np.array([i+1 for i in range(len(eval_logs))])
-train_epochs = np.array([i+1 for i in range(len(train_logs))])
 simil_epochs = np.array([i+1 for i in range(len(simil_logs))])
 
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
-
 ax1.set_title('Similarity')
 ax2.set_title('Eval loss')
-# ax3.set_title('Train loss')
 ax1.plot(simil_epochs, simil_logs)
 ax2.plot(eval_epochs, eval_logs)
-# ax3.plot(train_epochs, train_logs)
-
 try:
     fig.savefig("text-detoxification/reports/figures/training.pdf", bbox_inches='tight')
 except Exception as e:
