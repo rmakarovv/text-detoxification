@@ -1,4 +1,4 @@
-This repositoty contains a solution for text detoxification
+This repositoty contains a solution for text detoxification task.
 
 	author: Roman Makarov
 	group:  B20-AI-01
